@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'io.spring.dependency-management' version '1.1.3'
+    id 'org.springframework.boot' version '3.1.2'
+}
+
+repositories { mavenCentral() }
+
+// root project의 task 비활성화
+bootJar { enabled = false }
+jar { enabled = false }
+
+subprojects { // 각 모듈에 적용할 공통 설정
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencies { // 롬복은 공통적으로 적용
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
+
+    //빌드할 때 모든 의존성을 포함한 bootjar 파일로 빌드
+    tasks.named('bootJar') {
+        enabled = true
+    }
+
+    tasks.named('jar') {
+        enabled = false
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}

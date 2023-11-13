@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: gopang-config
+  profiles:
+    active:
+      - git
+  cloud:
+    config:
+      server:
+        git:
+          default-label: main
+          uri: https://github.com/ProjectGopang/gopang-microservice-config.git
+          username: ProjectGopang
+          password: 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
+
+
+server:
+  port: 8071
+
+#Enable all Spring Boot Actuator endpoints.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

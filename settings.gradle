@@ -1,0 +1,3 @@
+rootProject.name = 'gopang-microservice'
+include 'itemserver'
+include 'orderserver'
