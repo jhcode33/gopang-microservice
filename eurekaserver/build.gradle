@@ -52,9 +52,14 @@ dependencyManagement {
     }
 }
 
-//tasks.named('bootBuildImage') {
-//    builder = 'paketobuildpacks/builder-jammy-base:latest'
-//}
+docker {
+    // Dockerfile을 직접 지정
+    name("gopang/${project.name}:${version}")
+    dockerfile file('Dockerfile')
+    // 빌드에 사용할 파일 지정
+    files bootJar
+    buildArgs(['JAR_FILE': bootJar.archiveFileName.get()])
+}
 
 tasks.named('test') {
     useJUnitPlatform()
