@@ -1,0 +1,43 @@
+package com.gopang.oauth2server.entity;
+
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * 회원 가입 된 사용자 entity
+ */
+@Entity
+@Data
+// Lombok을 사용하여 equals()와 hashCode() 메서드를 생성하며, callSuper = true는 부모 클래스인 AbstractEntity의 필드도 고려하여 생성
+@EqualsAndHashCode(callSuper = true)
+public class User extends AbstractEntity {
+
+    // 아이디 = email
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    // 비밀번호
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    // 권한
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    // 활성화 여부
+    @Column(name = "active")
+    private Boolean active;
+
+    @Builder
+    public User(String username, String password, Role role, Boolean active) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+    }
+
+    public User(){}
+}
