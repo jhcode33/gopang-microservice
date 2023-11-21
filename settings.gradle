@@ -1,3 +1,5 @@
 rootProject.name = 'gopang-microservice'
 include 'itemserver'
 include 'orderserver'
+include 'configserver'
+include 'eurekaserver'
