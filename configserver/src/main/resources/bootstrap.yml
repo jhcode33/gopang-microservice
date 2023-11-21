@@ -12,6 +12,7 @@ spring:
           uri: https://github.com/ProjectGopang/gopang-microservice-config.git
           username: ProjectGopang
           password: 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
+          refresh-rate: 60
 
 
 server:

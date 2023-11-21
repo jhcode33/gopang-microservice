@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: gopang-gateway
+  cloud:
+    config:
+      uri: http://localhost:8071
+      name: gopang-gateway
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.optimagrowth: DEBUG
