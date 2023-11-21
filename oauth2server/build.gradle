@@ -39,8 +39,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
+    //== Spring Cloud ==//
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.3'
 
     // DB
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
