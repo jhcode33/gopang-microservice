@@ -28,4 +28,4 @@ COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 #execute the application
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.optimagrowth.gateway.ApiGatewayServerApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.gopang.gatewayserver.ApiGatewayServerApplication"]
