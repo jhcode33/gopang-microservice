@@ -51,42 +51,107 @@ services:
     depends_on:
       - zookeeper
 
+  gatewayserver:
+    image: gopang/gatewayserver:0.0.1-SNAPSHOT
+    ports:
+      - "8072:8072"
+    environment:
+      SERVER_PORT: "8072"
+      CONFIGSERVER_URI: "http://configserver:8071"
+      EUREKASERVER_URI: "http://eurekaserver:8070/eureka/"
+      EUREKASERVER_PORT: "8070"
+      CONFIGSERVER_PORT: "8071"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+      eurekaserver:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "gatewayserver"
+  configserver:
+    image: gopang/configserver:0.0.1-SNAPSHOT
+    ports:
+      - "8071:8071"
+    networks:
+      backend:
+        aliases:
+          - "configserver"
+
+  eurekaserver:
+    image: gopang/eurekaserver:0.0.1-SNAPSHOT
+    ports:
+      - "8070:8070"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "eurekaserver"
+
   orderservice:
-    image: kimmingyu0/orderservice:0.0.2-SNAPSHOT
+    image: gopang/orderserver:0.0.2-SNAPSHOT
     environment:
       DATABASESERVER_PORT: "3306"
     depends_on:
       database:
         condition: service_healthy
+      configserver:
+        condition: service_started
       kafka:
         condition: service_started
-
     ports:
-      - "8080:8080"
+      - "8082:8082"
     networks:
       - backend
 
   gopangpayment:
-    image: gopangpayment:0.0.1
+    image: gopang/paymentserver:0.0.1-SNAPSHOT
     container_name: gopangpayment
     environment:
-      PROFILE: "dev"
       DATABASESERVER_PORT: "3306"
     depends_on:
       database:
         condition: service_healthy
+      configserver:
+        condition: service_started
     ports:
-      - "8081:8081"
+      - "8083:8083"
     networks:
       - backend
+
   gopangitems:
     image: gopang/itemserver:0.0.1-SNAPSHOT
     ports:
-      - "8989:8989"
+      - "8081:8081"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
     networks:
       backend:
         aliases:
           - "itemserver"
+  oauth2server:
+    image: gopang/oauth2server:0.0.1-SNAPSHOT
+    ports:
+      - "8084:8084"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "oauth2server"
 networks:
   backend:
     driver: bridge
