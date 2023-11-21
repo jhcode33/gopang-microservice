@@ -1,0 +1,73 @@
+version: '3'
+services:
+  database:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: gopang_item
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mariadb-data:/var/lib/mysql
+    networks:
+      backend:
+        aliases:
+          - "database"
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOO_ENABLE_AUTH: yes
+      ZOO_SERVER_USERS: kafka, admin
+      ZOO_SERVER_PASSWORDS: kafka_password, admin
+      ZOO_CLIENT_USER: admin
+      ZOO_CLIENT_PASSWORD: admin
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+    networks:
+      backend:
+        aliases:
+          - "zookeeper"
+
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9092:9092"
+    networks:
+      backend:
+        aliases:
+          - "kafka"
+
+  gopangitemserver:
+    image: gopang/itemserver:0.0.1-SNAPSHOT
+    ports:
+      - "8989:8989"
+    networks:
+      backend:
+        aliases:
+          - "itemserver"
+
+networks:
+  backend:
+    driver: bridge
