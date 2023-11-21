@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: gopang-order
+  profiles:
+    active: default
+  cloud:
+    config:
+      uri: http://configserver:8071
+      name: gopang-order
+
+#management.endpoints.web.base-path=/
+management.endpoints.enabled-by-default: false
+management.endpoint.health:
+  enabled: true
+  show-details: always

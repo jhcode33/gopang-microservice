@@ -1,0 +1,92 @@
+version: "3"
+services:
+  database:
+    image: mariadb:latest
+    ports:
+      - "3306:3306" # 컨테이너 안 포트/호스트 시스템 외부 포트
+    networks:
+      backend:
+        aliases:
+          - "database"
+    environment:
+      MARIADB_DATABASE: "gopang"
+      MARIADB_USER: "root"
+      MARIADB_PASSWORD: "1234"
+      MARIADB_ROOT_PASSWORD: "1234"
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/data:/var/lib/mysql
+
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      interval: 1m
+      timeout: 5s
+      retries: 3
+
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    networks:
+      backend:
+        aliases:
+          - "zookeeper"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+    networks:
+      backend:
+        aliases:
+          - "kafka"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
+  orderservice:
+    image: kimmingyu0/orderservice:0.0.2-SNAPSHOT
+    environment:
+      DATABASESERVER_PORT: "3306"
+    depends_on:
+      database:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+  gopangpayment:
+    image: gopangpayment:0.0.1
+    container_name: gopangpayment
+    environment:
+      PROFILE: "dev"
+      DATABASESERVER_PORT: "3306"
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+  gopangitems:
+    image: gopang/itemserver:0.0.1-SNAPSHOT
+    ports:
+      - "8989:8989"
+    networks:
+      backend:
+        aliases:
+          - "itemserver"
+networks:
+  backend:
+    driver: bridge

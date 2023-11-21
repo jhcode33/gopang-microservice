@@ -3,7 +3,7 @@ spring:
     name: gopang-gateway
   cloud:
     config:
-      uri: http://localhost:8071
+      uri: http://configserver:8071
       name: gopang-gateway
 
 logging:
