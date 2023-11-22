@@ -9,6 +9,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -30,28 +31,22 @@ public class DefaultSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
     private final JpaUserDetailsManager jpaUserDetailsManager;
-//    private final ClientRegistrationRepository clientRegistrationRepository;
+    private final ClientRegistrationRepository clientRegistrationRepository;
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                // 모든 요청에 대해서 인증해야 함
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers("/join/**", "/login/**").permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/connect/logout")).permitAll()
                                 .anyRequest().permitAll())
 
-                // security에서 제공하는 기본 login 페이지를 활용
                 .formLogin(Customizer.withDefaults());
-
-//        http.logout(logout -> logout
-//                .logoutSuccessHandler(oidcLogoutSuccessHandler()));
         return http.build();
 
     }
 
-    // 사용자 인증, 비밀번혹 검증, 계정잠금여부 확인하여 조치, 권한부여까지 함
     @Bean
     public DaoAuthenticationProvider jpaDaoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -60,16 +55,6 @@ public class DefaultSecurityConfig {
         return daoAuthenticationProvider;
     }
 
-//    @Bean
-//    public LogoutSuccessHandler oidcLogoutSuccessHandler() {
-//        OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler =
-//                new OidcClientInitiatedLogoutSuccessHandler(this.clientRegistrationRepository);
-//        oidcLogoutSuccessHandler.setPostLogoutRedirectUri("http://localhost:8081/home");
-//
-//        return oidcLogoutSuccessHandler;
-//    }
-
-    //== CORS ==/
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

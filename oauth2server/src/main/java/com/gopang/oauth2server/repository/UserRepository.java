@@ -9,11 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    /**
-     * 사용자를 email(username)으로 찾는다
-     * @param username
-     * @return Optional&lt;User&gt;
-     */
     Optional<User> findByUsername(String username);
 
 }

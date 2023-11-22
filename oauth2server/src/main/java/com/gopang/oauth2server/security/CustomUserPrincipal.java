@@ -11,10 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Spring Security 사용자의 인증 정보를 제공
- * @implements UserDetails
- */
 @JsonDeserialize(using = CustomUserPrincipalDeserializer.class)
 public class CustomUserPrincipal implements UserDetails {
 

@@ -10,10 +10,5 @@ import java.util.Optional;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    /**
-     * 권한을 권한 이름으로 찾는다
-     * @param name
-     * @return Optional&lt;Role&gt;
-     */
     Optional<Role> findByName(String name);
 }

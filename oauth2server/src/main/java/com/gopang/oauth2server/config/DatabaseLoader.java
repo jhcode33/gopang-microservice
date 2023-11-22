@@ -19,11 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- *
- * @author gopang
- */
-
 @Component
 public class DatabaseLoader {
 
@@ -39,7 +34,6 @@ public class DatabaseLoader {
         this.clientRepository = clientRepository;
     }
 
-    //초기화 하는 메서드
     @PostConstruct
     void init(){
         clientCreation();
@@ -47,38 +41,31 @@ public class DatabaseLoader {
     }
 
     private void clientCreation() {
-        // 클라이언트가 이미 존재하는지 확인
         Optional<Client> clientOptional = clientRepository.findByClientId("demo-client");
         if(clientOptional.isPresent()) return;
 
-        // 클라이언트의 인증 방법 설정
         List<String> clientAuthenticationMethods = new ArrayList<>();
         clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_BASIC.getValue());
         clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue());
 
-        // 클라이언트의 권한 부여 타입 설정
         List<String> authorizationGrantTypes = new ArrayList<>();
         authorizationGrantTypes.add(AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
         authorizationGrantTypes.add(AuthorizationGrantType.REFRESH_TOKEN.getValue());
         authorizationGrantTypes.add(AuthorizationGrantType.CLIENT_CREDENTIALS.getValue());
 
-        // 클라이언트의 리다이렉트 URI 설정
         List<String> redirectUri = new ArrayList<>();
         redirectUri.add("https://oidcdebugger.com/debug");
         redirectUri.add("http://127.0.0.1:9191/login/oauth2/code/demo-client-oidc");
         redirectUri.add("http://127.0.0.1:9191/authorized");
 
-        // 클라이언트의 로그아웃 리다이렉트 URI 설정
         List<String> postLogoutRedirectUri = new ArrayList<>();
         postLogoutRedirectUri.add("http://127.0.0.1:9191");
 
-        // 클라이언트의 스코프 설정
         List<String> scope = new ArrayList<>();
         scope.add(OidcScopes.OPENID);
         scope.add("demo.read");
         scope.add("demo.write");
 
-        // 클라이언트 객체 생성 및 속성 설정
         Client client = new Client();
         client.setId(UUID.randomUUID().toString());
         client.setClientId("demo-client");
@@ -91,12 +78,10 @@ public class DatabaseLoader {
         client.setClientSettings(null);
         client.setTokenSettings(null);
 
-        // 데이터베이스에 클라이언트 저장
         clientRepository.save(client);
 
     }
 
-    // 새로생성된 유저에게 "ROLE_USER" 권한 부여
     private void roleCreation() {
         Optional<Role> roleOptional = roleRepository.findByName("ROLE_USER");
         if(roleOptional.isPresent()) return;
@@ -104,7 +89,6 @@ public class DatabaseLoader {
         createUser("user", role);
     }
 
-    // 유저 회원가입
     private void createUser(String username, Role role) {
         Optional<User> userOptional = userRepository.findByUsername(username);
         if(userOptional.isPresent()) return;

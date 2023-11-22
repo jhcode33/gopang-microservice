@@ -16,12 +16,6 @@ public class Oauth2TokenConfig {
 
     private final JwtEncoder jwtEncoder;
 
-    /**
-     *
-     * @return
-     * @author jhcode33
-     * @Date 2023.11.16
-     */
     @Bean
     public OAuth2TokenGenerator<?> tokenGenerator() {
         JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
@@ -33,10 +27,6 @@ public class Oauth2TokenConfig {
                 jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
     }
 
-    /**
-     * Token에 어떤 정보가 저장될지 정할 수 있다
-     * @return
-     */
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
         return context -> {

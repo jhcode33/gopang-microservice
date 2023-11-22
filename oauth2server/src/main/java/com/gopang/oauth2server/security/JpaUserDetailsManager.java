@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.util.Optional;
 
-/**
- * 사용자 정보 CRUD, 중복검사
- * */
+
 @Service
 public class JpaUserDetailsManager implements UserDetailsManager {
 
@@ -40,7 +38,6 @@ public class JpaUserDetailsManager implements UserDetailsManager {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    // 중복 검사
     @Override
     public boolean userExists(String username) {
         return this.userRepository.findByUsername(username).isPresent();
