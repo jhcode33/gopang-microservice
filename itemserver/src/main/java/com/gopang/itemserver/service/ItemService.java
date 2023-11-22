@@ -1,7 +1,7 @@
 package com.gopang.itemserver.service;
 
 import com.gopang.itemserver.dto.request.item.SellerInfo;
-import com.gopang.itemserver.dto.request.item.itemorder.ResItemOrder;
+import com.gopang.itemserver.dto.response.ResItemOrder;
 import com.gopang.itemserver.dto.request.item.save.*;
 import com.gopang.itemserver.dto.request.item.update.*;
 import com.gopang.itemserver.dto.response.ResItem;
