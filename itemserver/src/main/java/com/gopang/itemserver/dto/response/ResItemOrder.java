@@ -1,5 +1,6 @@
-package com.gopang.itemserver.dto.request.item.itemorder;
+package com.gopang.itemserver.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 /**
@@ -10,8 +11,11 @@ import lombok.Builder;
  */
 public class ResItemOrder {
 
+    @JsonProperty("itemId")
     private Long itemId;
+    @JsonProperty("itemName")
     private String itemName;
+    @JsonProperty("itemPrice")
     private Long itemPrice;
 
     @Builder
