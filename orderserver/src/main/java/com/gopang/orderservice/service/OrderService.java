@@ -65,7 +65,7 @@ public class OrderService {
         ParameterizedTypeReference<List<ResItemOrder>> responseType = new ParameterizedTypeReference<List<ResItemOrder>>() {};
 
         ResponseEntity<List<ResItemOrder>> response = restTemplate.exchange(
-                "http://itemserver:8989/api/v1/order/item",
+                "http://itemserver:8081/api/v1/order/item",
                 HttpMethod.POST,
                 entity,
                 responseType);
