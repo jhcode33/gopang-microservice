@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * 회원 가입 된 사용자 entity
- */
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)

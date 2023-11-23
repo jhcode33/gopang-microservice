@@ -7,9 +7,6 @@ import lombok.Data;
 
 import java.time.Instant;
 
-/**
- * Client 정보를 등록하는 Entity
- */
 @Entity
 @Data
 public class Client {

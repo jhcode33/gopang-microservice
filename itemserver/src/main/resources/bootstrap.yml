@@ -2,7 +2,7 @@ spring:
   application:
     name: gopang-item
   profiles:
-    active: default
+    active: dev
   cloud:
     config:
       uri: http://configserver:8071

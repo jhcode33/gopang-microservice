@@ -31,7 +31,7 @@ public class DefaultSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
     private final JpaUserDetailsManager jpaUserDetailsManager;
-    private final ClientRegistrationRepository clientRegistrationRepository;
+//    private final ClientRegistrationRepository clientRegistrationRepository;
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {

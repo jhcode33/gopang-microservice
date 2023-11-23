@@ -10,17 +10,11 @@ import java.security.KeyPair;
 import java.security.interfaces.*;
 import java.util.UUID;
 
-/**
- * JSON Web Key Set(JWKS)를 생성하는 유틸리티 클래스
- * @author Joe Grandja
- * @since 1.1
- */
 public final class Jwks {
 
     private Jwks() {
     }
 
-    // RSA key를 생성
     public static RSAKey generateRsa() {
         KeyPair keyPair = KeyGeneratorUtils.generateRsaKey();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
@@ -35,7 +29,6 @@ public final class Jwks {
         // @formatter:on
     }
 
-    // ECKey를 생성
     public static ECKey generateEc() {
         KeyPair keyPair = KeyGeneratorUtils.generateEcKey();
         ECPublicKey publicKey = (ECPublicKey) keyPair.getPublic();
@@ -49,8 +42,6 @@ public final class Jwks {
         // @formatter:on
     }
 
-
-    // 대칭 암호용 키 생성
     public static OctetSequenceKey generateSecret() {
         SecretKey secretKey = KeyGeneratorUtils.generateSecretKey();
         // @formatter:off

@@ -10,17 +10,11 @@ import java.security.spec.ECParameterSpec;
 import java.security.spec.ECPoint;
 import java.security.spec.EllipticCurve;
 
-/**
- * 다양한 종류의 Key를 생성하는 유틸리티 클래스
- * @author Joe Grandja
- * @since 1.1
- */
 final class KeyGeneratorUtils {
 
     private KeyGeneratorUtils() {
     }
 
-    // HMAC-SHA-256 알고리즘을 사용하여 시크릿 키(SecretKey)를 생성함
     static SecretKey generateSecretKey() {
         SecretKey hmacKey;
         try {
@@ -31,7 +25,6 @@ final class KeyGeneratorUtils {
         return hmacKey;
     }
 
-    // RSA 알고리즘을 사용하여 공개 키와 개인 키로 이루어진 KeyPair을 생성함
     static KeyPair generateRsaKey() {
         KeyPair keyPair;
         try {
@@ -44,7 +37,6 @@ final class KeyGeneratorUtils {
         return keyPair;
     }
 
-    // ECDSA 알고리즘을 사용하여 타원 곡선 키(ECKeyPair)을 생성함
     static KeyPair generateEcKey() {
         EllipticCurve ellipticCurve = new EllipticCurve(
                 new ECFieldFp(

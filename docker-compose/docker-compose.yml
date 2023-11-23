@@ -10,7 +10,7 @@ services:
           - "database"
     environment:
       MARIADB_DATABASE: "gopang"
-      MARIADB_USER: "root"
+#      MARIADB_USER: "root"
       MARIADB_PASSWORD: "1234"
       MARIADB_ROOT_PASSWORD: "1234"
     volumes:
@@ -142,7 +142,7 @@ services:
   oauth2server:
     image: gopang/oauth2server:0.0.1-SNAPSHOT
     ports:
-      - "8084:8084"
+      - "8085:8085"
     depends_on:
       database:
         condition: service_healthy
