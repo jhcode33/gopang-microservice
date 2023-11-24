@@ -49,9 +49,9 @@ public class SecurityConfig {
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     // 허용된 오리진(Origin) 설정 (여기서는 "http://localhost:8080"만 허용)
-    configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+    configuration.setAllowedOrigins(Arrays.asList("*"));
     // 허용된 HTTP 메서드 설정 (GET, POST, PUT, DELETE 허용)
-    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     // 모든 헤더(Header) 허용
     configuration.setAllowedHeaders(Arrays.asList("*"));
     // 노출할 헤더(Exposed Headers) 설정 (여기서는 모든 헤더 노출)
