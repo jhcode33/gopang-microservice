@@ -2,10 +2,10 @@ spring:
   application:
     name: gopang-eureka
   profiles:
-    active: default
+    active: local
   cloud:
     config:
-      uri: http://configserver:8071
+      uri: http://localhost:8071
       name: gopang-eureka
     loadbalancer:
       ribbon:
