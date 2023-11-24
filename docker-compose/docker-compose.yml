@@ -72,6 +72,7 @@ services:
       backend:
         aliases:
           - "gatewayserver"
+
   configserver:
     image: gopang/configserver:0.0.1-SNAPSHOT
     ports:
