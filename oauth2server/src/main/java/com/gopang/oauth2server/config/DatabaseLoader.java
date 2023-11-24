@@ -55,6 +55,7 @@ public class DatabaseLoader {
 
         List<String> redirectUri = new ArrayList<>();
         redirectUri.add("https://oidcdebugger.com/debug");
+        redirectUri.add("http://localhost:8072/login/callback");
         redirectUri.add("http://127.0.0.1:9191/login/oauth2/code/demo-client-oidc");
         redirectUri.add("http://127.0.0.1:9191/authorized");
 

@@ -57,7 +57,17 @@ spring:
           predicates:
             - Path=/oauth2/**
           filters:
-            - CustomFilter
+            - RewritePath=/oauth2/(?<path>.*), /$\{path}
+            - RemoveRequestHeader=Cookie
+            - RemoveRequestHeader=Set-Cookie
+
+        # OAuth2 Server - For /login
+        - id: gopang-oauth2-login
+          uri: lb://gopang-oauth2
+          predicates:
+            - Path=/login/**
+          filters:
+            - LoginFilter
             - RewritePath=/oauth2/(?<path>.*), /$\{path}
             - RemoveRequestHeader=Cookie
             - RemoveRequestHeader=Set-Cookie
