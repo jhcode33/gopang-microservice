@@ -57,6 +57,7 @@ spring:
           predicates:
             - Path=/oauth2/**
           filters:
+            - CustomFilter
             - RewritePath=/oauth2/(?<path>.*), /$\{path}
             - RemoveRequestHeader=Cookie
             - RemoveRequestHeader=Set-Cookie

@@ -19,5 +19,8 @@ public class SignController {
         return joinService.save(joinDto);
     }
 
-
+    @PostMapping("/login")
+    public String check() {
+        return "good test";
+    }
 }
