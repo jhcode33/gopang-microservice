@@ -4,14 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 @Component
 @Slf4j
@@ -50,7 +52,7 @@ public class CustomFilterGatewayFilterFactory
                 // 수정된 바디를 요청에 설정
                 ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
                         .header(HttpHeaders.CONTENT_LENGTH, String.valueOf(modifiedBody.length()))
-                        .body(modifiedBody.getBytes(StandardCharsets.UTF_8)).build();
+                        .build();
 
                 // 수정된 요청으로 필터 체인 계속 진행
                 return chain.filter(exchange.mutate().request(modifiedRequest).build());
@@ -73,8 +75,22 @@ public class CustomFilterGatewayFilterFactory
         private String redirect_uri = "http://127.0.0.1:9191/login/oauth2/code/demo-client-oidc";
         private String scope = "openid";
         private String state = "state";
-        private String code_challenge;
-        private String code_challenge_method;
+        private String Code_verifier = generateCodeVerifier();
+        private String Code_challenge = generateCodeChallenge(Code_verifier);
+        private String Code_challenge_method = "S256";
+
+        private String generateCodeVerifier() {
+            SecureRandom secureRandom = new SecureRandom();
+            byte[] codeVerifier = new byte[32];
+            secureRandom.nextBytes(codeVerifier);
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(codeVerifier);
+        }
+
+        private static String generateCodeChallenge(String codeVerifier) {
+            byte[] codeVerifierBytes = codeVerifier.getBytes();
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(codeVerifierBytes);
+        }
+
 
         public Object client_id() {
             return client_id;
@@ -104,4 +120,10 @@ public class CustomFilterGatewayFilterFactory
             return getCode_challenge_method();
         }
     }
+
+
+
+
+
+
 }
