@@ -14,6 +14,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 @Component
 @Slf4j
@@ -56,8 +58,21 @@ public class CustomFilter
         private String redirect_uri = "http://127.0.0.1:9191/login/oauth2/code/demo-client-oidc";
         private String scope = "openid";
         private String state = "state";
-        private String code_challenge;
-        private String code_challenge_method;
+        private String code_verifier = generateCodeVerifier();
+        private String code_challenge = generateCodeChallenge(code_verifier);
+        private String code_challenge_method = "S256";
+
+        private String generateCodeVerifier() {
+            SecureRandom secureRandom = new SecureRandom();
+            byte[] codeVerifier = new byte[32];
+            secureRandom.nextBytes(codeVerifier);
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(codeVerifier);
+        }
+
+        private static String generateCodeChallenge(String codeVerifier) {
+            byte[] codeVerifierBytes = codeVerifier.getBytes();
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(codeVerifierBytes);
+        }
 
         public Object getClient_id() {
             return client_id;
