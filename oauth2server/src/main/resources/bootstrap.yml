@@ -2,10 +2,10 @@ spring:
   application:
     name: gopang-oauth2
   profiles:
-    active: default
+    active: local
   cloud:
     config:
-      uri: http://configserver:8071
+      uri: http://localhost:8071
       name: gopang-oauth2
 
 #management.endpoints.web.base-path=/
