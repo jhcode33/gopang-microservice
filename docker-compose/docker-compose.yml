@@ -153,6 +153,14 @@ services:
       backend:
         aliases:
           - "oauth2server"
+  angular-app:
+    image: nginx-server:web-server
+    container_name: angular-app
+    build:
+      context: ../nginx-server
+      dockerfile: ../nginx-server/Dockerfile
+    ports:
+      - "80:80"
 networks:
   backend:
     driver: bridge
