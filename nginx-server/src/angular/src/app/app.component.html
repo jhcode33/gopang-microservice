@@ -12,12 +12,21 @@
       <nb-card-body>
         <div class="row justify-content-center">
           <div class="col-md-8">
+            Please enter your username :
+            <input
+              type="text"
+              [(ngModel)]="username"
+              nbInput
+              placeholder="username"
+              [disabled]="isReady"
+            />
             <button
               (click)="chat()"
-              [disabled]="isReady"
+              [disabled]="isReady || username == ''"
               class="ml-4 mb-1"
               nbButton
-              status="primary">
+              status="primary"
+            >
               Start
             </button>
           </div>
@@ -35,6 +44,9 @@
   </nb-layout-column>
 
   <nb-layout-footer>
-    Made by Ryu hyun woo✏️
-  </nb-layout-footer> 
-  </nb-layout>
+    Made by &nbsp;
+    <a href="https://www.linkedin.com/in/hselmi/" target="_blank">
+      Houssem Selmi </a
+    >&nbsp;✏️</nb-layout-footer
+  >
+</nb-layout>

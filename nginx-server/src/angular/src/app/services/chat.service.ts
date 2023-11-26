@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Message } from '../models/message';
-
 /**
  * Declaring SockJS and Stomp : check the assets/js folder and the index.html script section
  */
@@ -24,7 +23,7 @@ export class ChatService {
     /**
      * Create a SockJS server with created back-end endpoint called /chat-websocket and added it over Stomp.
      */
-    const serverUrl = 'http://localhost:8080/';
+    const serverUrl = 'http://localhost:8080/chat-websocket';
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
