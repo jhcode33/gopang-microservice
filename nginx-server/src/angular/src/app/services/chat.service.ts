@@ -23,7 +23,7 @@ export class ChatService {
     /**
      * Create a SockJS server with created back-end endpoint called /chat-websocket and added it over Stomp.
      */
-    const serverUrl = 'http://localhost:8080/chat-websocket';
+    const serverUrl = 'http://localhost:8080/ws';
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
@@ -31,7 +31,7 @@ export class ChatService {
      * Connect stomp client and subscribe asynchronously to the chat message-handling Controller endpoint and push any message body into the messages array
      */
     this.stompClient.connect({}, function(frame) {
-      that.stompClient.subscribe('/chat/messages', message => {
+      that.stompClient.subscribe('/sub/chatroom', message => {
         if (message.body) {
           let obj = JSON.parse(message.body);
           that.addMessage(obj.text, obj.username, obj.avatar);
@@ -54,6 +54,6 @@ export class ChatService {
 
   // Send a chat message using stomp client
   sendMessage(msg: Message) {
-    this.stompClient.send('/app/sendmsg', {}, JSON.stringify(msg));
+    this.stompClient.send('/pub/chatroom', {}, JSON.stringify(msg));
   }
 }

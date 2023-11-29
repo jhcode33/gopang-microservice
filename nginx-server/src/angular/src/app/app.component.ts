@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +28,7 @@ export class AppComponent {
   ];
 
   // Select one random avatar and theme for every chat component
-  constructor(private _router: Router, private http: HttpClient) {
+  constructor(private _router: Router) {
     this.selectedTheme = this.getTheme();
     this.selectedAvatar = this.getAvatar();
   }
@@ -47,20 +46,5 @@ export class AppComponent {
   // show the chat component
   chat() {
     this.isReady = true;
-    //this._router.navigateByUrl('http://localhost:8072/login');
-    const headers = new HttpHeaders({
-      'Access-Control-Allow-Origin': '*' // 또는 허용할 출처를 설정
-    });
-     this.http.get('http://localhost:8072/login', {headers}).subscribe(
-       (response) => {
-         // 요청 성공 시 응답 데이터 처리
-         console.log('응답 데이터:', response);
-         // 여기서 원하는 작업을 수행하거나 데이터를 처리할 수 있습니다.
-       },
-       (error) => {
-         // 요청 실패 시 에러 처리
-         console.error('에러 발생:', error);
-       }
-     );
   }
 }
